@@ -10,6 +10,7 @@ namespace Controlador
     {
         static void Main(string[] args)
         {
+            //soy el puto amohmmn 
         }
     }
 }
