@@ -1,33 +1,84 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Net.Sockets;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+
 
 namespace Cliente
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+    
     public partial class MainWindow : Window
     {
+        System.Net.Sockets.TcpClient cliente = new System.Net.Sockets.TcpClient();
+        Int32 puerto = 13000;
+        string direccionIp = null;
+        Boolean conectado = false;
+        
         public MainWindow()
         {
             InitializeComponent();
+           
         }
 
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void Conectar()
         {
+            try
+            {
+                direccionIp = tbdireccionIP.GetLineText(0);
+                cliente = new TcpClient(direccionIp, puerto);
+                conectado = true;
+            }
+            catch (SocketException e)
+            {
+                Console.WriteLine("Se cayo esta pecha\nSocketException: {0}", e);
+            }
+        }
+        private void TerminarConexion()
+        {
+            conectado = false;
+            cliente.Close();
+        }
 
+        private void EnviarMensajeAControlador(string mensaje)
+        {
+            if (conectado)
+            {
+                //pasar el mensaje de string a bytes
+                Byte[] data = System.Text.Encoding.ASCII.GetBytes(mensaje);
+                NetworkStream stream = cliente.GetStream();
+                stream.Write(data, 0, data.Length);
+                //listo el envio, ahora recibir respuesta del servidor
+                data = new Byte[256];
+                String respuesta = String.Empty;
+                Int32 bytes = stream.Read(data, 0, data.Length);
+                respuesta = System.Text.Encoding.ASCII.GetString(data, 0, bytes);
+                Console.WriteLine("Recibido: {0}", respuesta);
+            }
+            else
+            {
+                Console.WriteLine("No se puede enviar mensaje. No existe conexion.");
+            }
+        }
+        private void BotIngresar_Click(object sender, RoutedEventArgs e)
+        {
+            Conectar();
+        }
+
+        private void BotLimpiar_Click(object sender, RoutedEventArgs e)
+        {
+            tbdireccionIP.Clear();
+        }
+
+        private void BotFinConex_Click(object sender, RoutedEventArgs e)
+        {
+            TerminarConexion();
+        }
+
+        private void BotEnviarMen_Click(object sender, RoutedEventArgs e)
+        {
+            EnviarMensajeAControlador(tbMensaje.GetLineText(0));
         }
     }
 }
