@@ -7,8 +7,12 @@ namespace Controlador
 {
     class Program
     {
-        
-        static void Main(string[] args)
+         static void Main(string[] args)
+        {
+           IniciarServidor();
+        }
+
+        private static void IniciarServidor()
         {
             Int32 puerto = 13000;
             IPAddress direccionLocal = IPAddress.Parse("127.0.0.1");
@@ -35,16 +39,16 @@ namespace Controlador
                     NetworkStream stream = cliente.GetStream();
 
                     int i = 0;
-                    while ((i = stream.Read(bytes, 0, bytes.Length)) !=0 )
+                    while ((i = stream.Read(bytes, 0, bytes.Length)) != 0)
                     {
                         // Translate data bytes to a ASCII string.
                         menRecibido = System.Text.Encoding.ASCII.GetString(bytes, 0, i);
-                        Console.WriteLine("Received: {0}", menRecibido);
+                        Console.WriteLine("Recibido: {0}", menRecibido);
 
                         // Process the data sent by the client.
                         menRecibido = menRecibido.ToUpper();
 
-                        byte[] msg = System.Text.Encoding.ASCII.GetBytes("Mensaje Recibido, decia: "+menRecibido);
+                        byte[] msg = System.Text.Encoding.ASCII.GetBytes("Mensaje Recibido, decia: " + menRecibido);
 
                         // Send back a response.
                         stream.Write(msg, 0, msg.Length);
@@ -65,5 +69,11 @@ namespace Controlador
                 server.Stop();
             }
         }
+
+        private static bool ValidarJugador(string nom,string cont)
+        {
+            return false;
+        }
     }
+
 }

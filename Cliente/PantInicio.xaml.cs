@@ -9,14 +9,14 @@ namespace Cliente
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     
-    public partial class MainWindow : Window
+    public partial class PantInicio : Window
     {
         System.Net.Sockets.TcpClient cliente = new System.Net.Sockets.TcpClient();
         Int32 puerto = 13000;
         string direccionIp = null;
         Boolean conectado = false;
         
-        public MainWindow()
+        public PantInicio()
         {
             InitializeComponent();
            
@@ -29,9 +29,12 @@ namespace Cliente
                 direccionIp = tbdireccionIP.GetLineText(0);
                 cliente = new TcpClient(direccionIp, puerto);
                 conectado = true;
+                PantUsuario pantUsuario = new PantUsuario();
+                pantUsuario.ShowDialog();
             }
             catch (SocketException e)
             {
+                MessageBox.Show("No se encontro un servidor con dicha direccion IP");
                 Console.WriteLine("Se cayo esta pecha\nSocketException: {0}", e);
             }
         }
