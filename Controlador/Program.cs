@@ -1,28 +1,52 @@
-﻿using System;
+﻿using Autenticacion.Manager;
+using System;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading;
 
 
 namespace Controlador
 {
     class Program
     {
-         static void Main(string[] args)
+        private static bool ServidorEjecutando = false;
+        private static Int32 puerto = 13000;
+        private static IPAddress direccionLocal = IPAddress.Parse("127.0.0.1");
+        private static TcpListener server = null;
+
+
+        static void Main(string[] args)
         {
-           IniciarServidor();
+            IniciarServidor();
         }
 
         private static void IniciarServidor()
-        {
-            Int32 puerto = 13000;
-            IPAddress direccionLocal = IPAddress.Parse("127.0.0.1");
-            //socket por donde me van a entrar datos
-            TcpListener server = null;
+        { 
             try
             {
                 server = new TcpListener(direccionLocal, puerto);
                 server.Start();
+                ServidorEjecutando = true;
+                Thread esperador = new Thread(new ThreadStart(EsperarConexion));
+                esperador.Start();
+                esperador.IsBackground = true;
+               
+            }
+            catch (SocketException e)
+            {
+                Console.WriteLine("SocketException: {0}", e);
+            }
+            finally
+            {
+                //cerrar el servidor  para que no se caiga toda la madre
+                server.Stop();
+            }
+        }
 
+        private static void EsperarConexion()
+        {
+            if (ServidorEjecutando)
+            {
                 //buffer donde se me almacena los mensajes recibidos en el socket
                 Byte[] bytes = new Byte[1024];
                 String menRecibido = null;
@@ -59,17 +83,7 @@ namespace Controlador
                     Console.WriteLine("Finalizo conexion con el cliente.");
                 }
             }
-            catch (SocketException e)
-            {
-                Console.WriteLine("SocketException: {0}", e);
-            }
-            finally
-            {
-                //cerrar el servidor  para que no se caiga toda la madre
-                server.Stop();
-            }
         }
-
         private static bool ValidarJugador(string nom,string cont)
         {
             return false;
