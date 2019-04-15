@@ -19,14 +19,13 @@ namespace Cliente
         public PantInicio()
         {
             InitializeComponent();
-           
         }
 
         private void Conectar()
         {
             try
             {
-                direccionIp = tbdireccionIP.GetLineText(0);
+                
                 cliente = new TcpClient(direccionIp, puerto);
                 conectado = true;
                 PantUsuario pantUsuario = new PantUsuario();
@@ -82,6 +81,22 @@ namespace Cliente
         private void BotEnviarMen_Click(object sender, RoutedEventArgs e)
         {
             EnviarMensajeAControlador(tbMensaje.GetLineText(0));
+        }
+
+
+
+        
+
+        private void CleanIpText(object sender, RoutedEventArgs e)
+        {
+            direccionIp = tbdireccionIP.GetLineText(0);
+            tbdireccionIP.Clear();
+        }
+
+
+        private void FillIPText(object sender, RoutedEventArgs e)
+        {
+            tbdireccionIP.Text = "Dirrecion IP";
         }
     }
 }

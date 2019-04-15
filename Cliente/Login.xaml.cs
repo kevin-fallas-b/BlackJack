@@ -20,9 +20,22 @@ namespace Cliente
     /// </summary>
     public partial class Login : Page
     {
+        String usuario = null;
+        String contrasenna = null;
+
         public Login()
         {
             InitializeComponent();
         }
+
+        private void BotLogin_Click(object sender, RoutedEventArgs e)
+        {
+            usuario = txtUsuario.GetLineText(0);
+            contrasenna = txtContrasenna.GetLineText(0);
+
+
+        }
+
+       
     }
 }
