@@ -11,13 +11,17 @@ namespace Controlador
     {
         private static bool ServidorEjecutando = false;
         private static Int32 puerto = 13000;
-        private static IPAddress direccionLocal = IPAddress.Parse("127.0.0.1");
+        private static IPAddress direccionLocal = IPAddress.Parse("192.168.1.40");
         private static TcpListener server = null;
 
 
         static void Main(string[] args)
         {
             IniciarServidor();
+            while (true)
+            {
+
+            }
         }
 
         private static void IniciarServidor()
@@ -28,9 +32,9 @@ namespace Controlador
                 server.Start();
                 ServidorEjecutando = true;
                 Thread esperador = new Thread(new ThreadStart(EsperarConexion));
-                esperador.Start();
                 esperador.IsBackground = true;
-               
+                esperador.Start();
+                
             }
             catch (SocketException e)
             {
@@ -39,7 +43,7 @@ namespace Controlador
             finally
             {
                 //cerrar el servidor  para que no se caiga toda la madre
-                server.Stop();
+                //server.Stop();
             }
         }
 
@@ -59,9 +63,7 @@ namespace Controlador
                     TcpClient cliente = server.AcceptTcpClient();
                     Console.WriteLine("Conexion establecida.");
                     menRecibido = null;
-
                     NetworkStream stream = cliente.GetStream();
-
                     int i = 0;
                     while ((i = stream.Read(bytes, 0, bytes.Length)) != 0)
                     {

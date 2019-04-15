@@ -19,7 +19,7 @@ namespace Cliente
         public PantInicio()
         {
             InitializeComponent();
-           
+            
         }
 
         private void Conectar()
