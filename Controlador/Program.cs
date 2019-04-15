@@ -11,7 +11,6 @@ namespace Controlador
     {
         private static bool ServidorEjecutando = false;
         private static Int32 puerto = 13000;
-        private static IPAddress direccionLocal = IPAddress.Parse("192.168.1.40");
         private static TcpListener server = null;
 
 
@@ -28,7 +27,7 @@ namespace Controlador
         { 
             try
             {
-                server = new TcpListener(direccionLocal, puerto);
+                server = TcpListener.Create(puerto);
                 server.Start();
                 ServidorEjecutando = true;
                 Thread esperador = new Thread(new ThreadStart(EsperarConexion));
