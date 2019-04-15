@@ -39,51 +39,54 @@ namespace Controlador
             {
                 Console.WriteLine("SocketException: {0}", e);
             }
-            finally
-            {
-                //cerrar el servidor  para que no se caiga toda la madre
-                //server.Stop();
-            }
+            
         }
 
         private static void EsperarConexion()
         {
             if (ServidorEjecutando)
             {
-                //buffer donde se me almacena los mensajes recibidos en el socket
-                Byte[] bytes = new Byte[1024];
-                String menRecibido = null;
-
                 //entrar en un loop infinito donde espera conexiones
                 while (true)
                 {
                     Console.WriteLine("Esperando conexion.");
                     //cliente es igual a lo que le entra al socket
-                    TcpClient cliente = server.AcceptTcpClient();
+                    TcpClient clienteNuevo = server.AcceptTcpClient();
                     Console.WriteLine("Conexion establecida.");
-                    menRecibido = null;
-                    NetworkStream stream = cliente.GetStream();
-                    int i = 0;
-                    while ((i = stream.Read(bytes, 0, bytes.Length)) != 0)
-                    {
-                        // Translate data bytes to a ASCII string.
-                        menRecibido = System.Text.Encoding.ASCII.GetString(bytes, 0, i);
-                        Console.WriteLine("Recibido: {0}", menRecibido);
-
-                        // Process the data sent by the client.
-                        menRecibido = menRecibido.ToUpper();
-
-                        byte[] msg = System.Text.Encoding.ASCII.GetBytes("Mensaje Recibido, decia: " + menRecibido);
-
-                        // Send back a response.
-                        stream.Write(msg, 0, msg.Length);
-                        Console.WriteLine("Se envio mensaje de afirmacion.");
-                    }
-                    //cerrar conexion
-                    cliente.Close();
-                    Console.WriteLine("Finalizo conexion con el cliente.");
+                    Thread t = new Thread(new ParameterizedThreadStart(LidiarConexion));
+                    t.Start(clienteNuevo);
                 }
             }
+        }
+
+        private static void LidiarConexion(Object obj)
+        {
+            //buffer donde se me almacena los mensajes recibidos en el socket
+            Byte[] bytes = new Byte[1024];
+            String menRecibido = null;
+            TcpClient cliente = (TcpClient)obj;
+            menRecibido = null;
+            NetworkStream stream = cliente.GetStream();
+            int i = 0;
+            while ((i = stream.Read(bytes, 0, bytes.Length)) != 0)
+            {
+                // Translate data bytes to a ASCII string.
+                menRecibido = System.Text.Encoding.ASCII.GetString(bytes, 0, i);
+                Console.WriteLine("Recibido: {0}", menRecibido);
+
+                // Process the data sent by the client.
+                menRecibido = menRecibido.ToUpper();
+
+                byte[] msg = System.Text.Encoding.ASCII.GetBytes("Mensaje Recibido, decia: " + menRecibido);
+
+                // Send back a response.
+                stream.Write(msg, 0, msg.Length);
+                Console.WriteLine("Se envio mensaje de afirmacion.");
+            }
+            //cerrar conexion
+            cliente.Close();
+            Console.WriteLine("Finalizo conexion con el cliente.");
+
         }
         private static bool ValidarJugador(string nom,string cont)
         {
