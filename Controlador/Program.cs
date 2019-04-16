@@ -1,5 +1,6 @@
 ﻿using Autenticacion.Manager;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
@@ -12,9 +13,10 @@ namespace Controlador
         private static bool ServidorEjecutando = false;
         private static Int32 puerto = 13000;
         private static TcpListener server = null;
+        private static List<Jugador> Jugador = new List<Jugador>();
 
 
-        static void Main(string[] args)
+        void Main(string[] args)
         {
             IniciarServidor();
             while (true)
@@ -68,6 +70,14 @@ namespace Controlador
             menRecibido = null;
             NetworkStream stream = cliente.GetStream();
             int i = 0;
+
+
+            Console.WriteLine(((IPEndPoint)cliente.Client.RemoteEndPoint).Address.ToString());//obtiene la ip de cada jugador
+            string ip = ((IPEndPoint)cliente.Client.RemoteEndPoint).Address.ToString();
+            //agrega el nuevo jugador a una lista
+            Jugador.Add(new Jugador(ip));
+
+
             while ((i = stream.Read(bytes, 0, bytes.Length)) != 0)
             {
                 // Translate data bytes to a ASCII string.
