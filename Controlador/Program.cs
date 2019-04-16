@@ -3,7 +3,7 @@ using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
-
+using System.DirectoryServices;
 
 namespace Controlador
 {
@@ -17,6 +17,8 @@ namespace Controlador
         static void Main(string[] args)
         {
             IniciarServidor();
+            AutenticationManager a = new AutenticationManager();
+            DirectoryEntry de = a.GetDirectoryEntry();
             while (true)
             {
 
@@ -68,11 +70,12 @@ namespace Controlador
             menRecibido = null;
             NetworkStream stream = cliente.GetStream();
             int i = 0;
+            Console.WriteLine(((IPEndPoint)cliente.Client.RemoteEndPoint).Address.ToString());
             while ((i = stream.Read(bytes, 0, bytes.Length)) != 0)
             {
                 // Translate data bytes to a ASCII string.
                 menRecibido = System.Text.Encoding.ASCII.GetString(bytes, 0, i);
-                Console.WriteLine("Recibido: {0}", menRecibido);
+                Console.WriteLine("Recibido mensaje de {0}", menRecibido);
 
                 // Process the data sent by the client.
                 menRecibido = menRecibido.ToUpper();
@@ -90,7 +93,8 @@ namespace Controlador
         }
         private static bool ValidarJugador(string nom,string cont)
         {
-            return false;
+            AutenticationManager aut = new AutenticationManager();
+            return aut.ValidarUsuario(nom,cont);   
         }
     }
 

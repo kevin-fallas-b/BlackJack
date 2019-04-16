@@ -83,10 +83,6 @@ namespace Cliente
             EnviarMensajeAControlador(tbMensaje.GetLineText(0));
         }
 
-
-
-        
-
         private void CleanIpText(object sender, RoutedEventArgs e)
         {
             direccionIp = tbdireccionIP.GetLineText(0);

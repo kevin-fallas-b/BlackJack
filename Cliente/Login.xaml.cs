@@ -32,8 +32,6 @@ namespace Cliente
         {
             usuario = txtUsuario.GetLineText(0);
             contrasenna = txtContrasenna.GetLineText(0);
-
-
         }
 
        

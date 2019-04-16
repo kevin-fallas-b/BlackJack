@@ -1,16 +1,41 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.DirectoryServices;
 
 namespace Autenticacion.Manager
 {
     public class AutenticationManager
     {
-        public void HolaMundoAut()
+        public DirectoryEntry GetDirectoryEntry()
         {
-            Console.WriteLine("hola mundo");
+            DirectoryEntry de = new DirectoryEntry();
+            de.Path = "LDAP://192.168.1.158/CN=Administrador;DC=Una.so.local";
+            de.Username = @"so.local\Kaysera";
+            de.Password = "Una-123";
+            Console.WriteLine("se conecto, eres un dios kevin");
+            
+            return de;
+        }
+
+        public bool UserExists(string UserName)
+        {
+            DirectoryEntry de = ADHelper.GetDirectoryEntry();
+            DirectorySearcher deSearch = new DirectorySearcher();
+            deSearch.SearchRoot = de;
+            deSearch.Filter = "(&(objectClass=user) (cn=" + UserName + "))";
+            SearchResultCollection results = deSearch.FindAll();
+            if (results.Count == 0)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        public bool ValidarUsuario(string nom, string cont)
+        {
+            return true;
         }
     }
 }
