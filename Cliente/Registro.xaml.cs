@@ -20,9 +20,28 @@ namespace Cliente
     /// </summary>
     public partial class Registro : Page
     {
+        String usuario = null;
+        String contrasenna = null;
+        String ccontrasenna = null;
+
         public Registro()
         {
             InitializeComponent();
+        }
+
+        private void BotRegis_Click(object sender, RoutedEventArgs e)
+        {
+            usuario = txtUsuario.GetLineText(0);
+            contrasenna = txtContrasenna.GetLineText(0);
+            ccontrasenna = txtConfContrasenna.GetLineText(0);
+            if (contrasenna != ccontrasenna)
+            {
+                MessageBox.Show("Las contraseñas no coinciden");
+            }
+            else
+            {
+                MessageBox.Show("Resgistro posible");
+            }
         }
     }
 }

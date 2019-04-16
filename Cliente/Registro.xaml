@@ -9,6 +9,9 @@
       Title="Registro">
 
     <Grid>
-        <TextBlock Text="pantalla de registro de usuario" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24"/>
+        <Button x:Name="botFinConex" Content="Registrar" HorizontalAlignment="Left" Margin="362,228,0,0" VerticalAlignment="Top" Width="94" Click="BotRegis_Click"/>
+        <TextBox x:Name="txtUsuario" TextAlignment="Center" HorizontalAlignment="Left"  Height="23" Margin="292,66,0,0" TextWrapping="Wrap" Text="Usuario" VerticalAlignment="Top" Width="218"/>
+        <TextBox x:Name="txtContrasenna" TextAlignment="Center" HorizontalAlignment="Left" Height="23" Margin="292,116,0,0" TextWrapping="Wrap" Text="Contraseña" VerticalAlignment="Top" Width="218" />
+        <TextBox x:Name="txtConfContrasenna" TextAlignment="Center" HorizontalAlignment="Left" Height="23" Margin="292,165,0,0" TextWrapping="Wrap" Text="Confirmar Contraseña" VerticalAlignment="Top" Width="218" />
     </Grid>
 </Page>

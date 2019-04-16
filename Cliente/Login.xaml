@@ -9,6 +9,9 @@
       Title="Login">
 
     <Grid>
-        <TextBlock Text="pantalla de login de usuario" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24"/>
+        <Button x:Name="botFinConex" Content="Ingresar" HorizontalAlignment="Left" Margin="360,182,0,0" VerticalAlignment="Top" Width="94" Click="BotLogin_Click"/>
+        <TextBox x:Name="txtUsuario" TextAlignment="Center" HorizontalAlignment="Left"  Height="23" Margin="293,59,0,0" TextWrapping="Wrap" Text="Usuario" VerticalAlignment="Top" Width="218"/>
+        <TextBox x:Name="txtContrasenna" TextAlignment="Center" HorizontalAlignment="Left" Height="23" Margin="293,117,0,0" TextWrapping="Wrap" Text="Contraseña" VerticalAlignment="Top" Width="218" />
+
     </Grid>
 </Page>
