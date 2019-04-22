@@ -4,98 +4,35 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.DirectoryServices;
+using System.Collections.Generic;
 
 namespace Controlador
 {
     class Program
     {
-        private static bool ServidorEjecutando = false;
-        private static Int32 puerto = 13000;
-        private static TcpListener server = null;
-
-
+        
         static void Main(string[] args)
         {
-            IniciarServidor();
-            AutenticationManager a = new AutenticationManager();
-            DirectoryEntry de = a.GetDirectoryEntry();
-            while (true)
-            {
+            string Opcion = "0";
+            List<Partida> partidas = new List<Partida>();
 
-            }
-        }
-
-        private static void IniciarServidor()
-        { 
-            try
+            while(Convert.ToInt32(Opcion) != 3)
             {
-                server = TcpListener.Create(puerto);
-                server.Start();
-                ServidorEjecutando = true;
-                Thread esperador = new Thread(new ThreadStart(EsperarConexion));
-                esperador.IsBackground = true;
-                esperador.Start();
-                
-            }
-            catch (SocketException e)
-            {
-                Console.WriteLine("SocketException: {0}", e);
-            }
-            
-        }
-
-        private static void EsperarConexion()
-        {
-            if (ServidorEjecutando)
-            {
-                //entrar en un loop infinito donde espera conexiones
-                while (true)
+                Console.Clear();
+                Console.WriteLine("Digite 1 para crear una partida nueva.");
+                Console.WriteLine("Digite 2 para terminar las partidas y salir.");
+                Console.WriteLine("Digite 3 para salir sin terminar las partidas.");
+                Opcion = Console.ReadLine();
+                switch (Convert.ToInt32(Opcion))
                 {
-                    Console.WriteLine("Esperando conexion.");
-                    //cliente es igual a lo que le entra al socket
-                    TcpClient clienteNuevo = server.AcceptTcpClient();
-                    Console.WriteLine("Conexion establecida.");
-                    Thread t = new Thread(new ParameterizedThreadStart(LidiarConexion));
-                    t.Start(clienteNuevo);
+                    case 1:
+                        Partida part = new Partida();
+                        break;
+                    case 3:
+                        Console.WriteLine("salida.");
+                        break;
                 }
             }
         }
-
-        private static void LidiarConexion(Object obj)
-        {
-            //buffer donde se me almacena los mensajes recibidos en el socket
-            Byte[] bytes = new Byte[1024];
-            String menRecibido = null;
-            TcpClient cliente = (TcpClient)obj;
-            menRecibido = null;
-            NetworkStream stream = cliente.GetStream();
-            int i = 0;
-            Console.WriteLine(((IPEndPoint)cliente.Client.RemoteEndPoint).Address.ToString());
-            while ((i = stream.Read(bytes, 0, bytes.Length)) != 0)
-            {
-                // Translate data bytes to a ASCII string.
-                menRecibido = System.Text.Encoding.ASCII.GetString(bytes, 0, i);
-                Console.WriteLine("Recibido mensaje de {0}", menRecibido);
-
-                // Process the data sent by the client.
-                menRecibido = menRecibido.ToUpper();
-
-                byte[] msg = System.Text.Encoding.ASCII.GetBytes("Mensaje Recibido, decia: " + menRecibido);
-
-                // Send back a response.
-                stream.Write(msg, 0, msg.Length);
-                Console.WriteLine("Se envio mensaje de afirmacion.");
-            }
-            //cerrar conexion
-            cliente.Close();
-            Console.WriteLine("Finalizo conexion con el cliente.");
-
-        }
-        private static bool ValidarJugador(string nom,string cont)
-        {
-            AutenticationManager aut = new AutenticationManager();
-            return aut.ValidarUsuario(nom,cont);   
-        }
     }
-
 }

@@ -92,7 +92,7 @@ namespace Cliente
 
         private void FillIPText(object sender, RoutedEventArgs e)
         {
-            tbdireccionIP.Text = "Dirrecion IP";
+           
         }
     }
 }
