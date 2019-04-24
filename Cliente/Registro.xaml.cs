@@ -42,7 +42,7 @@ namespace Cliente
             else
             {
                 MessageBox.Show("Resgistro posible");
-                string mensaje = "AAA:" + usuario + "/" + contrasenna + "^";
+                string mensaje = "R:" + usuario + "/" + contrasenna + "^";
                 conexion.EnviarMensaje(mensaje);
             }
         }
