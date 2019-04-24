@@ -19,10 +19,10 @@ namespace Cliente
     /// </summary>
     public partial class PantUsuario : Window
     {
-        private Conexion conexion = Conexion.Instance;
         public PantUsuario()
         {
             InitializeComponent();
+            main.Content = new Login();
         }
 
         private void Registro_Click(object sender, RoutedEventArgs e)
@@ -33,6 +33,16 @@ namespace Cliente
         private void Login_Click(object sender, RoutedEventArgs e)
         {
             main.Content = new Login();
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+
+        }
+
+        private void Cancelar_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
     }
 }

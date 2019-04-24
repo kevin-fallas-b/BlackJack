@@ -12,31 +12,27 @@ namespace Cliente
     
     public partial class PantInicio : Window
     {
-
-        private Conexion conexion = Conexion.Instance;
         public PantInicio()
         {
             InitializeComponent();
+            Control.Conexion.setPantInicio(this);
         }
 
         private void BotIngresar_Click(object sender, RoutedEventArgs e)
         {
-            conexion.Conectar(tbdireccionIP.GetLineText(0));
+            if (Control.Conexion.Conectar(tbdireccionIP.GetLineText(0)))
+            {
+                Control.pantUsuario.ShowDialog();
+            }
         }
 
         private void BotLimpiar_Click(object sender, RoutedEventArgs e)
         {
-            tbdireccionIP.Clear();
-        }
-
-        private void BotFinConex_Click(object sender, RoutedEventArgs e)
-        {
+            if(tbdireccionIP.GetLineText(0) == "Direccion IP")
+            {
+                tbdireccionIP.Clear();
+            }
             
-        }
-
-        private void BotEnviarMen_Click(object sender, RoutedEventArgs e)
-        {
-            //EnviarMensajeAControlador(tbMensaje.GetLineText(0));
         }
 
         private void CleanIpText(object sender, RoutedEventArgs e)
@@ -44,10 +40,14 @@ namespace Cliente
             tbdireccionIP.Clear();
         }
 
-
-        private void FillIPText(object sender, RoutedEventArgs e)
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-           
+            Control.Conexion.TerminarConexion();
+        }
+
+        private void BotAcercaDe_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

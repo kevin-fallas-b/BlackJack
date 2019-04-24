@@ -9,30 +9,66 @@ using System.Windows;
 
 namespace Cliente
 {
-    class Conexion
+    class Control
     {
-        private static Conexion instancia = null;
+        private static Control conexion = null;
+        private static PantInicio pantinicio = null;
+        private static PantUsuario pantusuario = null;
+        private static PantJuego pantjuego = null;
         private TcpClient cliente = new TcpClient();
         private Int32 puerto = 13000;
         private bool conectado = false;
 
-        private Conexion()
+        private Control()
         {
-
         }
-        
-        public static Conexion Instance
+
+        public static Control Conexion
         {
             get
             {
-                if (instancia == null)
+                if (conexion == null)
                 {
-                    instancia = new Conexion();
+                    conexion = new Control();
                 }
-                return instancia;
+                return conexion;
+            }
+        }
+        
+        public static PantInicio pantInicio
+        {
+            get
+            {
+                if (pantinicio == null)
+                {
+                    pantinicio = new PantInicio();
+                }
+                return pantinicio;
             }
         }
 
+        public static PantUsuario pantUsuario
+        {
+            get
+            {
+                if (pantusuario == null)
+                {
+                    pantusuario = new PantUsuario();
+                }
+                return pantusuario;
+            }
+        }
+        public static PantJuego pantJuego
+        {
+            get
+            {
+                if (pantjuego == null)
+                {
+                    pantjuego = new PantJuego();
+                }
+                return pantjuego;
+            }
+        }
         public bool Conectar(string direccionIp)
         {
             try
@@ -40,22 +76,24 @@ namespace Cliente
 
                 cliente = new TcpClient(direccionIp, puerto);
                 conectado = true;
-                PantUsuario pantUsuario = new PantUsuario();
-                pantUsuario.ShowDialog();
+                return true;
             }
             catch (SocketException e)
             {
                 MessageBox.Show("No se encontro un servidor con dicha direccion IP");
-                Console.WriteLine("Se cayo esta pecha\nSocketException: {0}", e);
+                Console.WriteLine("SocketException: {0}", e);
+                return false;
             }
-            return true;
+            
         }
 
-        public bool TerminarConexion()
+        public void TerminarConexion()
         {
-            conectado = false;
-            cliente.Close();
-            return true;
+            if (conectado)
+            {
+                conectado = false;
+                cliente.Close();
+            }
         }
 
         public string EnviarMensaje(string mensaje)
@@ -79,6 +117,11 @@ namespace Cliente
                 Console.WriteLine("No se puede enviar mensaje. No existe conexion.");
             }
             return respuesta;
+        }
+
+        public void setPantInicio(PantInicio pant)
+        {
+            pantinicio = pant;
         }
     }
 }

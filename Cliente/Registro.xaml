@@ -9,9 +9,14 @@
       Title="Registro">
 
     <Grid>
-        <Button x:Name="botFinConex" Content="Registrar" HorizontalAlignment="Left" Margin="362,228,0,0" VerticalAlignment="Top" Width="94" Click="BotRegis_Click"/>
-        <TextBox x:Name="txtUsuario" TextAlignment="Center" HorizontalAlignment="Left"  Height="23" Margin="292,66,0,0" TextWrapping="Wrap" Text="Usuario" VerticalAlignment="Top" Width="218"/>
-        <TextBox x:Name="txtContrasenna" TextAlignment="Center" HorizontalAlignment="Left" Height="23" Margin="292,116,0,0" TextWrapping="Wrap" Text="Contraseña" VerticalAlignment="Top" Width="218" />
-        <TextBox x:Name="txtConfContrasenna" TextAlignment="Center" HorizontalAlignment="Left" Height="23" Margin="292,165,0,0" TextWrapping="Wrap" Text="Confirmar Contraseña" VerticalAlignment="Top" Width="218" />
+        <Grid.Background>
+            <ImageBrush ImageSource="Resources/login.jpg"/>
+        </Grid.Background>
+        <Rectangle Fill="White" HorizontalAlignment="Left" Height="320" Margin="10,45,0,0" Stroke="Black" VerticalAlignment="Top" Width="290"/>
+        <Button x:Name="botFinConex" Content="Registrar" HorizontalAlignment="Left" Margin="115,257,0,0" VerticalAlignment="Top" Width="94" Click="BotRegis_Click"/>
+        <TextBox x:Name="txtUsuario" TextAlignment="Center" HorizontalAlignment="Left"  Height="23" GotFocus="TxtUsuario_GotFocus" Margin="45,95,0,0" TextWrapping="Wrap" Text="Usuario" VerticalAlignment="Top" Width="218"/>
+        <TextBox x:Name="txtContrasenna" TextAlignment="Center" HorizontalAlignment="Left" Height="23" GotFocus="TxtContrasenna_GotFocus" Margin="45,145,0,0" TextWrapping="Wrap" Text="Contraseña" VerticalAlignment="Top" Width="218" />
+        <TextBox x:Name="txtConfContrasenna" TextAlignment="Center" HorizontalAlignment="Left" Height="23" GotFocus="TxtConfContrasenna_GotFocus" Margin="45,194,0,0" TextWrapping="Wrap" Text="Confirmar Contraseña" VerticalAlignment="Top" Width="218" />
+
     </Grid>
 </Page>

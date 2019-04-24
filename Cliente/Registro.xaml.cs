@@ -23,7 +23,6 @@ namespace Cliente
         String usuario = null;
         String contrasenna = null;
         String ccontrasenna = null;
-        private Conexion conexion = Conexion.Instance;
 
         public Registro()
         {
@@ -43,7 +42,31 @@ namespace Cliente
             {
                 MessageBox.Show("Resgistro posible");
                 string mensaje = "R:" + usuario + "/" + contrasenna + "^";
-                conexion.EnviarMensaje(mensaje);
+                Control.Conexion.EnviarMensaje(mensaje);
+            }
+        }
+
+        private void TxtUsuario_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (txtUsuario.GetLineText(0) == "Usuario")
+            {
+                txtUsuario.Clear();
+            }
+        }
+
+        private void TxtContrasenna_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (txtContrasenna.GetLineText(0) == "Contraseña")
+            {
+                txtContrasenna.Clear();
+            }
+        }
+
+        private void TxtConfContrasenna_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if(txtConfContrasenna.GetLineText(0)== "Confirmar Contraseña")
+            {
+                txtConfContrasenna.Clear();
             }
         }
     }

@@ -31,9 +31,23 @@ namespace Cliente
         private void BotLogin_Click(object sender, RoutedEventArgs e)
         {
             usuario = txtUsuario.GetLineText(0);
-            contrasenna = txtContrasenna.GetLineText(0);
+            contrasenna = txtContrasenna.Password;
+            Control.pantJuego.Show();
+            Control.pantInicio.Close();
+            Control.pantUsuario.Close();
         }
 
-       
+        private void TxtUsuario_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if(txtUsuario.GetLineText(0) == "Usuario")
+            {
+                txtUsuario.Clear();
+            }
+        }
+
+        private void TxtContrasenna_GotFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

@@ -12,18 +12,18 @@
 		TextElement.FontSize="13"
 		TextOptions.TextFormattingMode="Ideal"
 		TextOptions.TextRenderingMode="Auto"
-		Background="{DynamicResource MaterialDesignPaper}"
+        Closing="Window_Closing"
+		Background="{x:Null}"
 		FontFamily="{DynamicResource MaterialDesignFont}" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize">
 
     <Grid>
         <Grid.Background>
             <ImageBrush ImageSource="/Resources/fondo.jpg"/>
         </Grid.Background>
-        <Button x:Name="botLimpiar" Click="BotLimpiar_Click" Content="Limpiar" HorizontalAlignment="Center" VerticalAlignment="Center" Width="93" Margin="267,320,434,219"/>
-        <TextBox x:Name="tbdireccionIP" HorizontalAlignment="Center" Height="27" TextWrapping="Wrap" Text="Direccion IP" VerticalAlignment="Center" Width="150" LostFocus="FillIPText" GotFocus="CleanIpText"  />
-        <Button x:Name="botIngresar" Click="BotIngresar_Click"  Content="Ingresar" HorizontalAlignment="Center" Margin="405,320,296,219" VerticalAlignment="Center" Width="93"/>
-        <Button x:Name="botFinConex" Click="BotFinConex_Click" Content="Finalizar Conexion" HorizontalAlignment="Left" Margin="193,427,0,0" VerticalAlignment="Top" Width="167"/>
-        <Button x:Name="botEnviarMen" Click="BotEnviarMen_Click" Content="Enviar mensaje" HorizontalAlignment="Left" Margin="405,427,0,0" VerticalAlignment="Top" Width="167"/>
-        <TextBox x:Name="tbMensaje" HorizontalAlignment="Left" Height="23" Margin="322,381,0,0" TextWrapping="Wrap" Text="Mensaje" VerticalAlignment="Top" Width="120"/>
+        <Button x:Name="botLimpiar" Click="BotLimpiar_Click" Content="Limpiar" HorizontalAlignment="Center" VerticalAlignment="Center" Width="93" Height="40" Margin="267,320,434,219"/>
+        <TextBox x:Name="tbdireccionIP" HorizontalAlignment="Center" Height="27" TextWrapping="Wrap" Text="Direccion IP" VerticalAlignment="Center" Width="150" GotFocus="CleanIpText"  />
+        <Button x:Name="botIngresar" Click="BotIngresar_Click"  Content="Ingresar" HorizontalAlignment="Center" Margin="405,320,296,219" Height="40" Width="93" VerticalAlignment="Center"/>
+        <TextBlock x:Name="DireccHint" Visibility="Hidden" HorizontalAlignment="Left" Margin="322,247,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="130" Height="25" RenderTransformOrigin="1.077,0.8"><Run Text="Direccion IP"/><LineBreak/><Run/></TextBlock>
+        <Button x:Name="botAcercaDe" Content="Acerca de" Click="BotAcercaDe_Click" HorizontalAlignment="Left" Margin="19,515,0,0" VerticalAlignment="Top" Width="103"/>
     </Grid>
 </Window>

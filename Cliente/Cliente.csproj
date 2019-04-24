@@ -65,7 +65,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Conexion.cs" />
+    <Compile Include="Control.cs" />
+    <Compile Include="PantJuego.xaml.cs">
+      <DependentUpon>PantJuego.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Registro.xaml.cs">
       <DependentUpon>Registro.xaml</DependentUpon>
     </Compile>
@@ -88,6 +91,10 @@
       <DependentUpon>PantInicio.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="PantJuego.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="PantUsuario.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -128,10 +135,74 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="poker_1.ico" />
     <Resource Include="Resources\fondo.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="poker_1.ico" />
+    <Resource Include="Resources\A1.png" />
+    <Resource Include="Resources\A100.png" />
+    <Resource Include="Resources\A5.png" />
+    <Resource Include="Resources\A50.png" />
+    <Resource Include="Resources\blackjack.png" />
+    <Resource Include="Resources\C10.jpg" />
+    <Resource Include="Resources\C2.jpg" />
+    <Resource Include="Resources\C3.jpg" />
+    <Resource Include="Resources\C4.jpg" />
+    <Resource Include="Resources\C5.jpg" />
+    <Resource Include="Resources\C6.jpg" />
+    <Resource Include="Resources\C7.jpg" />
+    <Resource Include="Resources\C8.jpg" />
+    <Resource Include="Resources\C9.jpg" />
+    <Resource Include="Resources\CA.jpg" />
+    <Resource Include="Resources\CF.jpg" />
+    <Resource Include="Resources\CJ.jpg" />
+    <Resource Include="Resources\CK.jpg" />
+    <Resource Include="Resources\CQ.jpg" />
+    <Resource Include="Resources\D10.jpg" />
+    <Resource Include="Resources\D2.jpg" />
+    <Resource Include="Resources\D3.jpg" />
+    <Resource Include="Resources\D4.jpg" />
+    <Resource Include="Resources\D5.jpg" />
+    <Resource Include="Resources\D6.jpg" />
+    <Resource Include="Resources\D7.jpg" />
+    <Resource Include="Resources\D8.jpg" />
+    <Resource Include="Resources\D9.jpg" />
+    <Resource Include="Resources\DA.jpg" />
+    <Resource Include="Resources\DJ.jpg" />
+    <Resource Include="Resources\DK.jpg" />
+    <Resource Include="Resources\DQ.jpg" />
+    <Resource Include="Resources\P10.jpg" />
+    <Resource Include="Resources\P2.jpg" />
+    <Resource Include="Resources\P3.jpg" />
+    <Resource Include="Resources\P4.jpg" />
+    <Resource Include="Resources\P5.jpg" />
+    <Resource Include="Resources\P6.jpg" />
+    <Resource Include="Resources\P7.jpg" />
+    <Resource Include="Resources\P8.jpg" />
+    <Resource Include="Resources\P9.jpg" />
+    <Resource Include="Resources\PA.jpg" />
+    <Resource Include="Resources\PJ.jpg" />
+    <Resource Include="Resources\PK.jpg" />
+    <Resource Include="Resources\PQ.jpg" />
+    <Resource Include="Resources\T10.jpg" />
+    <Resource Include="Resources\T2.jpg" />
+    <Resource Include="Resources\T3.jpg" />
+    <Resource Include="Resources\T4.jpg" />
+    <Resource Include="Resources\T5.jpg" />
+    <Resource Include="Resources\T6.jpg" />
+    <Resource Include="Resources\T7.jpg" />
+    <Resource Include="Resources\T8.jpg" />
+    <Resource Include="Resources\T9.jpg" />
+    <Resource Include="Resources\TA.jpg" />
+    <Resource Include="Resources\TJ.jpg" />
+    <Resource Include="Resources\TK.jpg" />
+    <Resource Include="Resources\TQ.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\login.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\registro.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
