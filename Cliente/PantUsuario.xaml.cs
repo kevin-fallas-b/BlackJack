@@ -19,7 +19,6 @@ namespace Cliente
     /// </summary>
     public partial class PantUsuario : Window
     {
-        private Conexion conexion = Conexion.Instance;
         public PantUsuario()
         {
             InitializeComponent();

@@ -23,7 +23,6 @@ namespace Cliente
         String usuario = null;
         String contrasenna = null;
         String ccontrasenna = null;
-        private Conexion conexion = Conexion.Instance;
 
         public Registro()
         {
@@ -42,8 +41,6 @@ namespace Cliente
             else
             {
                 MessageBox.Show("Resgistro posible");
-                string mensaje = "AAA:" + usuario + "/" + contrasenna + "^";
-                conexion.EnviarMensaje(mensaje);
             }
         }
     }
