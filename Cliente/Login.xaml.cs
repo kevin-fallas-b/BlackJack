@@ -30,11 +30,16 @@ namespace Cliente
 
         private void BotLogin_Click(object sender, RoutedEventArgs e)
         {
-            usuario = txtUsuario.GetLineText(0);
-            contrasenna = txtContrasenna.Password;
-            Control.pantJuego.Show();
-            Control.pantInicio.Close();
-            Control.pantUsuario.Close();
+            if ((txtUsuario.GetLineText(0) != "") && (txtContrasenna.Password != ""))
+            {
+                usuario = txtUsuario.GetLineText(0);
+                contrasenna = txtContrasenna.Password;
+                Control.Conexion.EnviarMensaje("L:" + usuario + "/" + contrasenna + "^");
+            }
+            else
+            {
+                MessageBox.Show("Debe de completar los espacios.");
+            }
         }
 
         private void TxtUsuario_GotFocus(object sender, RoutedEventArgs e)
@@ -48,6 +53,23 @@ namespace Cliente
         private void TxtContrasenna_GotFocus(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void txtContrasenna_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                if ((txtUsuario.GetLineText(0) != "") && (txtContrasenna.Password != ""))
+                {
+                    usuario = txtUsuario.GetLineText(0);
+                    contrasenna = txtContrasenna.Password;
+                    Control.Conexion.EnviarMensaje("L:" + usuario + "/" + contrasenna + "^");
+                }
+                else
+                {
+                    MessageBox.Show("Debe de completar los espacios.");
+                }
+            }
         }
     }
 }

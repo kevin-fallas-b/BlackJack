@@ -13,149 +13,212 @@ namespace Controlador
 {
     class Partida
     {
-        private bool ServidorEjecutando = false;
-        private Int32 puerto = 13000;
-        private IPAddress DireccIP = null;
-        private TcpListener server = null;
-        
+        private List<Jugador> enEspera;
+        private List<Jugador> enMesa;
+        private bool[] terminoTurno;  
+        private static string[] letters = new string[] { "C", "T", "P", "D" };
+        private static string[] values = new string[] { "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A" };
+        private static Carta[] baraja = new Carta[52];
+        private static int contBaraja = 0;//cont que me dice que carta sacar de la baraja
+        private static List<Carta> CartasCasa = new List<Carta>();
+
         public Partida()
         {
-            IniciarServidor();
+            enMesa = new List<Jugador>();
+            enMesa.Clear();
+            enEspera = new List<Jugador>();
+            enEspera.Clear();
+            CrearBaraja();
+            RevolverBaraja();
         }
 
         public Partida(IPAddress direccIP, int puertoPar)
         {
-            DireccIP = direccIP;
-            puerto = puertoPar;
-            IniciarServidor();
+            enMesa = new List<Jugador>();
+            enEspera = new List<Jugador>();
         }
 
-        private void IniciarServidor()
+       
+        public void TerminarPartidaDesdeControlador()
         {
-            try
-            {
-                if (DireccIP == null) {
-                    server = TcpListener.Create(puerto);
-                }
-                else
-                {
-                    server = new TcpListener(DireccIP, puerto);
-                }
-                server.Start();
-                ServidorEjecutando = true;
-                Thread esperador = new Thread(new ThreadStart(EsperarConexion));
-                esperador.IsBackground = true;
-                esperador.Start();
-
-            }
-            catch (SocketException e)
-            {
-                Console.WriteLine("SocketException: {0}", e);
-            }
-        }
-
-        private void EsperarConexion()
-        {
-            if (ServidorEjecutando)
-            {
-                //entrar en un loop infinito donde espera conexiones
-                while (true)
-                {
-                    Console.WriteLine("Esperando conexion.");
-                    //cliente es igual a lo que le entra al socket
-                    TcpClient clienteNuevo = server.AcceptTcpClient();
-                    Console.WriteLine("Conexion establecida.");
-                    Thread t = new Thread(new ParameterizedThreadStart(LidiarConexion));
-                    t.Start(clienteNuevo);
-                }
-            }
-        }
-
-        private void LidiarConexion(Object obj)
-        {
-            //buffer donde se me almacena los mensajes recibidos en el socket
-            Byte[] bytes = new Byte[1024];
-            String menRecibido = null;
-            TcpClient cliente = (TcpClient)obj;
-            menRecibido = null;
-            NetworkStream stream = cliente.GetStream();
-            int i = 0;
-            Console.WriteLine(((IPEndPoint)cliente.Client.RemoteEndPoint).Address.ToString());
-            while ((i = stream.Read(bytes, 0, bytes.Length)) != 0)
-            {
-                // Translate data bytes to a ASCII string.
-                menRecibido = System.Text.Encoding.ASCII.GetString(bytes, 0, i);
-                Console.WriteLine("Recibido mensaje de {0}", menRecibido);
-
-                // Process the data sent by the client.
-                menRecibido = menRecibido.ToUpper();
-                    
-                byte[] msg = System.Text.Encoding.ASCII.GetBytes("Mensaje Recibido, decia: " + menRecibido);
-
-                // Send back a response.
-                stream.Write(msg, 0, msg.Length);
-                Console.WriteLine("Se envio mensaje de afirmacion.");
-                char accion = menRecibido.ElementAt(0);
-                Console.WriteLine("Accion: " + accion);
-                switch (accion)
-                {
-                    case 'R':
-                        string usuario = BuscarEnString(menRecibido, ":", "/");
-                        string contra = BuscarEnString(menRecibido, "/", "^");
-                        RegistrarEnServidor(usuario, contra);
-                        break;
-                    case 'L':
-                        break;
-                    case 'P':
-                        break;
-                    case 'Q':
-                        break;
-                    case 'T':
-                        break;
-                    case 'A':
-                        break;
-                    case 'E':
-                        break;
-                }
-            }
-            
-            //cerrar conexion
-            cliente.Close();
-            Console.WriteLine("Finalizo conexion con el cliente.");
 
         }
 
-        private void RegistrarEnServidor(string usuario, string contra)
+        public bool agregarJugador(Jugador jug)
         {
-            Console.WriteLine("Se va a intentar crear usuario en servidor");
-            PrincipalContext context = new PrincipalContext(ContextType.Domain, "UNA", "administrador", "Una123");
-            try
+            if (enMesa.Count() >= 7)
             {
-                UserPrincipal usuarioNuevo = new UserPrincipal(context);
-                usuarioNuevo.SamAccountName = usuario;
-                usuarioNuevo.SetPassword(contra);
-                usuarioNuevo.Enabled = true;
-                usuarioNuevo.Save();
-                Console.WriteLine("Guardado");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Error al crear usuario. Exception: " + ex);
-            }
-        }
-        private string BuscarEnString(string strSource, string strStart, string strEnd)
-        {
-            int Start, End;
-            if (strSource.Contains(strStart) && strSource.Contains(strEnd))
-            {
-                Start = strSource.IndexOf(strStart, 0) + strStart.Length;
-                End = strSource.IndexOf(strEnd, Start);
-                return strSource.Substring(Start, End - Start);
+                enEspera.Add(jug);
+                return false;
             }
             else
             {
-                return "";
+                enMesa.Add(jug);
+                return true;
             }
+        }
+
+        public int getCantJugadores()
+        {
+            return enMesa.Count();
+        }
+
+        public string getCarta()
+        {
+            string carta = null;
+
+            return carta;
+        }
+
+        public bool RemoverJugador(string ip)
+        {
+            bool eliminado = false;
+            for(int i = 0; i < enMesa.Count(); i++)
+            {
+                if(ip == enMesa.ElementAt(i).getIp())
+                {
+                    eliminado = true;
+                    enMesa.RemoveAt(i);
+                    break;
+                }
+            }          
+            if (eliminado)
+            {
+                enMesa.Add(enEspera.ElementAt(0));
+                Console.WriteLine("se agrego a la mesa el jugador " + enEspera.ElementAt(0).getUsuario());
+                enEspera.RemoveAt(0);
+            }
+
+            return eliminado;
+        }
+
+        public string PedirCarta(string ipJug)
+        {
+            //generar carta
+            string NombCar = "";
+            for(int i = 0; i < enMesa.Count(); i++)
+            {
+                if(ipJug == enMesa.ElementAt(i).getIp())
+                {
+                    enMesa.ElementAt(i).setCartas(baraja[contBaraja]);
+                    NombCar = (i+"/"+baraja[contBaraja].getNombre());
+                    contBaraja++;
+                    break;
+                }
+            }
+            return NombCar;
+        }
+
+        public int getPosJugador(string ip)
+        {
+            for(int i = 0; i < enMesa.Count(); i++)
+            {
+                if(ip == enMesa.ElementAt(i).getIp())
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
+
+        private void CrearBaraja()
+        {
+            int contC = 0;
+            for(int i = 0; i < 4; i++)
+            {
+                for (int j = 0; j < 13; j++)
+                {
+                    baraja[contC] = new Carta((letters[i] + values[j]), values[j]);
+                    contC++;
+                }
+            }
+        }
+
+        private void RevolverBaraja()
+        {
+            new Random().Shuffle(baraja);
+        }
+
+        public List<Jugador> getJugadoresMesa()
+        {
+            return enMesa;
+        }
+
+        public string RepartirCartas(int[] readyPlayer)
+        {
+            string cartas = "";
+            for(int i=0;i < 7; i++)
+            {
+                if (readyPlayer[i]==1)
+                {
+                    enMesa.ElementAt(i).setCartas(baraja[contBaraja]);
+                    cartas += ("Z:" +i+"/"+baraja[contBaraja].getNombre()+"%^");
+                    contBaraja++;
+                }
+            }
+            CartasCasa.Add(baraja[contBaraja]);
+            cartas += ("Z:7" +"/" + baraja[contBaraja].getNombre()+"%^");
+            contBaraja++;
+            return cartas;
+        }
+
+        public int getPuntosCliente(string ipJug)
+        {
+            int puntos = 0;
+            for(int i = 0; i < enMesa.Count(); i++)
+            {
+                if(ipJug == enMesa.ElementAt(i).getIp())
+                {
+                    for(int k = 0; k < enMesa.ElementAt(i).getCartasEnMano().Count(); k++)
+                    {
+                        puntos += enMesa.ElementAt(i).getCartasEnMano().ElementAt(k).getValor();
+                    }
+                }
+            }
+            return puntos;
+        }
+
+        public int getPuntosCasa()
+        {
+            int puntos = 0;
+            for(int i = 0; i < CartasCasa.Count(); i++)
+            {
+                puntos += CartasCasa.ElementAt(i).getValor();
+            }
+            return puntos;
+        }
+
+        public string CasaPedirCarta()
+        {
+            CartasCasa.Add(baraja[contBaraja]);
+            string carta = baraja[contBaraja].getNombre();
+            contBaraja++;
+            return carta;
+        }
+
+        public void LimpiarManoCasa()
+        {
+            CartasCasa = new List<Carta>();
+            for(int i = 0; i < enMesa.Count(); i++)
+            {
+                enMesa.ElementAt(i).setCartas(new List<Carta>());
+            }
+        }
+    }
+}
+
+static class RandomExtensions
+{
+    public static void Shuffle<T>(this Random rng, T[] array)
+    {
+        
+        int n = array.Length;
+        while (n > 1)
+        {
+            int k = rng.Next(n--);
+            T temp = array[n];
+            array[n] = array[k];
+            array[k] = temp;
         }
     }
 }

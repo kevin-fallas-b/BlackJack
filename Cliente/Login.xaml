@@ -15,7 +15,7 @@
         <Rectangle Fill="White" HorizontalAlignment="Left" Height="320" Margin="10,45,0,0" Stroke="Black" VerticalAlignment="Top" Width="290"/>
         <Button x:Name="botFinConex" Content="Ingresar" HorizontalAlignment="Left" Margin="106,240,0,0" VerticalAlignment="Top" Width="94" Click="BotLogin_Click"/>
         <TextBox x:Name="txtUsuario" TextAlignment="Center" HorizontalAlignment="Left"  Height="23" Margin="47,109,0,0" GotFocus="TxtUsuario_GotFocus" TextWrapping="Wrap" Text="Usuario" VerticalAlignment="Top" Width="218"/>
-        <PasswordBox x:Name="txtContrasenna" HorizontalAlignment="Left" Height="23" Margin="47,175,0,0" GotFocus="TxtContrasenna_GotFocus" VerticalAlignment="Top" Width="218" />
+        <PasswordBox x:Name="txtContrasenna" KeyDown="txtContrasenna_KeyDown" HorizontalAlignment="Left" Height="23" Margin="47,175,0,0" GotFocus="TxtContrasenna_GotFocus" VerticalAlignment="Top" Width="218" />
 
     </Grid>
 

@@ -40,12 +40,118 @@ namespace Cliente
             }
             else
             {
-                MessageBox.Show("Resgistro posible");
-                string mensaje = "R:" + usuario + "/" + contrasenna + "^";
-                Control.Conexion.EnviarMensaje(mensaje);
+                if (validarpass(txtContrasenna.GetLineText(0)))
+                {
+                    string mensaje = "R:" + usuario + "/" + contrasenna + "^";
+                    Control.Conexion.EnviarMensaje(mensaje);
+                }
             }
         }
 
+        private bool validarpass(string password)
+        {
+            bool letra = false;
+            bool mayuscula = false;
+            bool minuscula = false;
+            bool numero = false;
+            bool simbolo = false;
+
+            char[] caracter = password.ToCharArray();
+
+            if (caracter.Length < 7)
+            {
+                MessageBox.Show("Tamaño incorrecto, debe tener como minimo 7 caracteres.");
+                return false;
+            }
+
+            for (int i = 0; i < caracter.Length; i++)
+            {
+                if (char.IsLetter(caracter[i]))
+                {
+                    letra = true;
+                    if (char.IsLower(caracter[i]))
+                    {
+                        minuscula = true;
+                    }
+                    else if (char.IsUpper(caracter[i]))
+                    {
+                        mayuscula = true;
+                    }
+                }
+                else if (char.IsNumber(caracter[i]))
+                {
+                    numero = true;
+                }
+                else if (char.IsSymbol(caracter[i]) || char.IsPunctuation(caracter[i]))
+                {
+                    simbolo = true;
+                }
+            }
+
+            string respuesta = "La contraseña aun debe contener:";
+            bool error = false;
+
+            if (letra == false)
+            {
+                error = true;
+                respuesta += " letras,";
+            }
+            if (mayuscula == false)
+            {
+                error = true;
+                respuesta += " mayusculas,";
+            }
+            if (minuscula == false)
+            {
+                error = true;
+                respuesta += " minusculas,";
+            }
+            if (numero == false)
+            {
+                error = true;
+                respuesta += " numeros,";
+            }
+            if (simbolo == false)
+            {
+                error = true;
+                respuesta += " simbolos,";
+            }
+
+            if (!error)
+            {
+                return true;
+            }
+            else
+            {
+                respuesta = respuesta.Remove(respuesta.Length - 1);
+                respuesta += ".";
+                MessageBox.Show(respuesta);
+                return false;
+            }
+        }
+
+        private void txtConfContrasenna_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                usuario = txtUsuario.GetLineText(0);
+                contrasenna = txtContrasenna.GetLineText(0);
+                ccontrasenna = txtConfContrasenna.GetLineText(0);
+                if (contrasenna != ccontrasenna)
+                {
+                    MessageBox.Show("Las contraseñas no coinciden");
+                }
+                else
+                {
+                    if (validarpass(txtContrasenna.GetLineText(0)))
+                    {
+                        MessageBox.Show("Resgistro posible");
+                        string mensaje = "R:" + usuario + "/" + contrasenna + "^";
+                        Control.Conexion.EnviarMensaje(mensaje);
+                    }
+                }
+            }
+        }
         private void TxtUsuario_GotFocus(object sender, RoutedEventArgs e)
         {
             if (txtUsuario.GetLineText(0) == "Usuario")
@@ -64,10 +170,11 @@ namespace Cliente
 
         private void TxtConfContrasenna_GotFocus(object sender, RoutedEventArgs e)
         {
-            if(txtConfContrasenna.GetLineText(0)== "Confirmar Contraseña")
+            if (txtConfContrasenna.GetLineText(0) == "Confirmar Contraseña")
             {
                 txtConfContrasenna.Clear();
             }
         }
+
     }
 }

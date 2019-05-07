@@ -37,12 +37,22 @@ namespace Cliente
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-
+            //Control.Conexion.TerminarConexion();
         }
 
         private void Cancelar_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }
+
+        public void abrirJuego()
+        {
+            Control.pantJuego.Show();
+        }
+        public void MensajePopUp(string mensaje)
+        {
+            MessageBox.Show(mensaje);
+        }
     }
 }
+

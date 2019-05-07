@@ -21,7 +21,7 @@
             <ImageBrush ImageSource="/Resources/fondo.jpg"/>
         </Grid.Background>
         <Button x:Name="botLimpiar" Click="BotLimpiar_Click" Content="Limpiar" HorizontalAlignment="Center" VerticalAlignment="Center" Width="93" Height="40" Margin="267,320,434,219"/>
-        <TextBox x:Name="tbdireccionIP" HorizontalAlignment="Center" Height="27" TextWrapping="Wrap" Text="Direccion IP" VerticalAlignment="Center" Width="150" GotFocus="CleanIpText"  />
+        <TextBox x:Name="tbdireccionIP" KeyDown="tbdireccionIP_KeyDown" HorizontalAlignment="Center" Height="27" TextWrapping="Wrap" Text="192.168.1.13" VerticalAlignment="Center" Width="150" GotFocus="CleanIpText"  />
         <Button x:Name="botIngresar" Click="BotIngresar_Click"  Content="Ingresar" HorizontalAlignment="Center" Margin="405,320,296,219" Height="40" Width="93" VerticalAlignment="Center"/>
         <TextBlock x:Name="DireccHint" Visibility="Hidden" HorizontalAlignment="Left" Margin="322,247,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="130" Height="25" RenderTransformOrigin="1.077,0.8"><Run Text="Direccion IP"/><LineBreak/><Run/></TextBlock>
         <Button x:Name="botAcercaDe" Content="Acerca de" Click="BotAcercaDe_Click" HorizontalAlignment="Left" Margin="19,515,0,0" VerticalAlignment="Top" Width="103"/>

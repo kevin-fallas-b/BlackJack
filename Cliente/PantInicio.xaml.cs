@@ -2,7 +2,7 @@
 using System.Net.Sockets;
 using System.Windows;
 using System.Net;
-
+using System.Windows.Input;
 
 namespace Cliente
 {
@@ -15,6 +15,8 @@ namespace Cliente
         public PantInicio()
         {
             InitializeComponent();
+            //la siguiente linea es porque WPF exige que se inicie desde un xaml. Por lo que el singleton nunca tendria acceso a pantinicio, entonces lo que hago
+            // es que inicio la aplicacion en pantInicio y mando pantInicio al singleton.
             Control.Conexion.setPantInicio(this);
         }
 
@@ -25,6 +27,18 @@ namespace Cliente
                 Control.pantUsuario.ShowDialog();
             }
         }
+
+        private void tbdireccionIP_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                if (Control.Conexion.Conectar(tbdireccionIP.GetLineText(0)))
+                {
+                    Control.pantUsuario.ShowDialog();
+                }
+            }
+        }
+
 
         private void BotLimpiar_Click(object sender, RoutedEventArgs e)
         {
@@ -42,7 +56,7 @@ namespace Cliente
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            Control.Conexion.TerminarConexion();
+
         }
 
         private void BotAcercaDe_Click(object sender, RoutedEventArgs e)

@@ -11,7 +11,16 @@ namespace Controlador
         private string usuario;
         private string ip;
         private bool conectado;
+        private int plata;
+        private List<Carta> cartasEnMano = new List<Carta>();
 
+        public Jugador(string nombre, string ipp, int plataa)
+        {
+            usuario = nombre;
+            ip = ipp;
+            conectado = false;
+            plata = plataa;
+        }
         public Jugador(string i)
         {
             string ip = i;
@@ -41,6 +50,25 @@ namespace Controlador
         {
             return conectado;
         }
-
+        public int getPlata()
+        {
+            return plata;
+        }
+        public void setPlata(int pla)
+        {
+            plata = pla;
+        }
+        public void setCartas(List<Carta> cartas)
+        {
+            cartasEnMano = cartas;
+        }
+        public void setCartas(Carta car)
+        {
+            cartasEnMano.Add(car);
+        }
+        public List<Carta> getCartasEnMano()
+        {
+            return cartasEnMano;
+        }
     }
 }
